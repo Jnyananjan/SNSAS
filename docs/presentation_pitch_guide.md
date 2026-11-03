@@ -5,9 +5,9 @@
 
 ## 1. 30-Second Elevator Pitch
 
-> *"Every day, institutions lose 10 to 15 minutes of lecture time to manual roll calls, while commercial biometric machines cost upwards of $200, suffer from hygiene issues, and lock schools into rigid, expensive software.*
+> *"Every day, institutions lose 10 to 15 minutes of lecture time to manual roll calls, while commercial biometric machines cost upwards of ₹15,000–₹25,000$200, suffer from hygiene issues, and lock schools into rigid, expensive software.*
 > 
-> *We built a 100% Python-first, open-source Smart Attendance Terminal powered by the **ESP32-S3** running **MicroPython**, with a **Color TFT Display**, **RFID/NFC**, and a **Piezo Buzzer**, built for under **$10**.*
+> *We built a 100% Python-first, open-source Smart Attendance Terminal powered by the **ESP32-S3** running **MicroPython**, with a **OLED Display**, **RFID/NFC**, and a **Piezo Buzzer**, built for under **$10**.*
 > 
 > *It features **zero-tool automated Python deployment**, a **captive onboarding web portal** that auto-scans classroom Wi-Fi, an **isolated Supabase cloud database** with atomic duplicate rejection, an **anti-proxy 2-second rate limiter**, and **real-time Google Sheets synchronization** so teachers work in their familiar spreadsheets with zero risk of database corruption."*
 

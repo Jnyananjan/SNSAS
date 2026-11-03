@@ -69,14 +69,15 @@ An open-source, production-grade IoT student attendance terminal built with the 
 
 ## 🛠️ Hardware Bill of Materials (BOM)
 
-| Component | Specification | Quantity | Est. Cost (USD) |
+| Component | Specification | Quantity | Est. Cost (INR) |
 | :--- | :--- | :---: | :---: |
-| **Microcontroller** | ESP32-S3 DevKit (4MB/8MB Flash, Dual USB-C) | 1 | ~$4.00 |
-| **Display** | SSD1306 / SH1106 0.96" 128x64 I2C OLED (4-pin) | 1 | ~$1.80 |
-| **RFID Reader** | MFRC522 (RC522) 13.56 MHz SPI Reader | 1 | ~$1.20 |
-| **RFID Cards / Fobs** | ISO/IEC 14443A Mifare Classic 1K (Keyfob / Card) | 2+ | ~$0.20 each |
-| **Buzzer** | 3.3V / 5V Active Piezo Buzzer | 1 | ~$0.30 |
-| **Breadboard & Wires**| Half-size Breadboard + Dupont Jumper Wires | 1 | ~$1.50 |
+| **Microcontroller** | ESP32-S3 DevKit (4MB/8MB Flash, Dual USB-C) | 1 | ~₹380 |
+| **Display** | SSD1306 / SH1106 0.96" 128x64 I2C OLED (4-pin) | 1 | ~₹160 |
+| **RFID Reader** | MFRC522 (RC522) 13.56 MHz SPI Reader | 1 | ~₹110 |
+| **RFID Cards / Fobs** | ISO/IEC 14443A Mifare Classic 1K (Keyfob / Card) | 2+ | ~₹15 each |
+| **Buzzer** | 3.3V / 5V Active Piezo Buzzer | 1 | ~₹20 |
+| **Breadboard & Wires**| Half-size Breadboard + Dupont Jumper Wires | 1 | ~₹100 |
+| **Total BOM** | Complete functional attendance terminal | — | **~₹785** (~$9.50) |
 
 ---
 
