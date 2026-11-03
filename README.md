@@ -1,10 +1,13 @@
 # SNSAS - Smart NFC Student Attendance System
 
-[![MicroPython](https://img.shields.io/badge/MicroPython-1.22%2B-blue.svg)](https://micropython.org/)
-[![Hardware](https://img.shields.io/badge/Hardware-ESP32--S3-green.svg)](https://www.espressif.com/en/products/socs/esp32-s3)
-[![Database](https://img.shields.io/badge/Database-Supabase%20PostgreSQL-brightgreen.svg)](https://supabase.com/)
-[![Sheets](https://img.shields.io/badge/Frontend-Google%20Sheets-success.svg)](https://sheets.google.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/Jnyananjan/SNSAS/actions/workflows/ci.yml/badge.svg)](https://github.com/Jnyananjan/SNSAS/actions/workflows/ci.yml)
+[![Hardware](https://img.shields.io/badge/Hardware-ESP32--S3-red.svg)](https://www.espressif.com/en/products/socs/esp32-s3)
+[![Firmware](https://img.shields.io/badge/Firmware-MicroPython%201.23+-green.svg)](https://micropython.org/)
+[![BOM Cost](https://img.shields.io/badge/BOM_Cost-~₹785_($10)-brightgreen.svg)](#-hardware-bill-of-materials-bom)
+[![Database](https://img.shields.io/badge/Database-Supabase%20PostgreSQL-3ECF8E.svg)](https://supabase.com/)
+[![Sheets](https://img.shields.io/badge/Sync-Google%20Sheets-34A853.svg)](https://sheets.google.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-orange.svg)](CONTRIBUTING.md)
 
 An open-source, production-grade IoT student attendance terminal built with the **ESP32-S3**, **SSD1306 128x64 I2C OLED**, **RC522 13.56MHz RFID Reader**, **Active Buzzer**, **Supabase (PostgreSQL RPC)**, and real-time **Google Sheets** synchronization.
 

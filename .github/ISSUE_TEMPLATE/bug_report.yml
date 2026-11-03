@@ -1,0 +1,42 @@
+name: 🐛 Bug Report
+description: Create a report to help us fix a hardware or firmware issue
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report an issue with SNSAS!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear and concise description of what the bug is.
+      placeholder: Tapping the card on the reader produced an error...
+    validations:
+      required: true
+  - type: dropdown
+    id: hardware
+    attributes:
+      label: Hardware Configuration
+      options:
+        - ESP32-S3 DevKit + SSD1306 OLED (I2C)
+        - ESP32-S3 DevKit + ST7789 Color TFT (SPI)
+        - Custom board / Other
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps To Reproduce
+      placeholder: |
+        1. Power on device
+        2. Tap RFID keyfob
+        3. See error on serial console
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Serial Terminal Logs
+      description: Paste any REPL or Thonny console logs here.
+      render: shell
