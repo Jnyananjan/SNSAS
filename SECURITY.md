@@ -20,3 +20,4 @@ We take the security of this IoT project seriously. If you discover a security v
    - Any proposed remediation or patch.
 
 We will review reports promptly and publish patches with proper attribution.
+
