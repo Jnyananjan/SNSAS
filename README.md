@@ -124,6 +124,15 @@ Detailed wiring diagrams and pinouts are in [docs/wiring_diagram.md](docs/wiring
 6. Copy the Webhook URL and add it to your Supabase Database Webhook settings (or use the sheet's built-in **🎓 Smart Attendance -> ⚡ Clean Sync Now** menu button).
 
 ### 3. Flash Firmware to ESP32-S3
+
+#### ⚡ Option A: 1-Click Automated Installer (Recommended)
+Plug your ESP32-S3 into your computer via USB and run:
+```bash
+python flash_terminal.py
+```
+*(This auto-detects your COM port, installs required tools, downloads MicroPython, flashes the board, uploads all drivers, and starts attendance mode).*
+
+#### 🛠️ Option B: Manual Installation via `mpremote`
 1. Install `esptool` and `mpremote`:
    ```bash
    pip install esptool mpremote
@@ -131,23 +140,24 @@ Detailed wiring diagrams and pinouts are in [docs/wiring_diagram.md](docs/wiring
 2. Download official MicroPython firmware for ESP32-S3 from [micropython.org](https://micropython.org/download/ESP32_GENERIC_S3/).
 3. Erase and flash:
    ```bash
-   esptool.py --chip esp32s3 --port COM6 erase_flash
-   esptool.py --chip esp32s3 --port COM6 write_flash -z 0 ESP32_GENERIC_S3.bin
+   esptool.py --chip esp32s3 erase_flash
+   esptool.py --chip esp32s3 write_flash -z 0 ESP32_GENERIC_S3.bin
    ```
 4. Copy the firmware files to the ESP32:
    ```bash
    cd firmware_micropython
-   mpremote connect COM6 fs cp config.py :config.py
-   mpremote connect COM6 fs cp buzzer.py :buzzer.py
-   mpremote connect COM6 fs cp ssd1306.py :ssd1306.py
-   mpremote connect COM6 fs cp mfrc522.py :mfrc522.py
-   mpremote connect COM6 fs cp portal.py :portal.py
-   mpremote connect COM6 fs cp students_cache.json :students_cache.json
-   mpremote connect COM6 fs cp main.py :main.py
+   mpremote fs cp config.py :config.py
+   mpremote fs cp buzzer.py :buzzer.py
+   mpremote fs cp ssd1306.py :ssd1306.py
+   mpremote fs cp mfrc522.py :mfrc522.py
+   mpremote fs cp portal.py :portal.py
+   mpremote fs cp students_cache.json :students_cache.json
+   mpremote fs cp main.py :main.py
    ```
 5. Reset the board:
    ```bash
-   mpremote connect COM6 reset
+   mpremote reset
+   ```
    ```
 
 ---

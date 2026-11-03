@@ -160,7 +160,7 @@ def flash_firmware(port, bin_path):
 # ------------------------------------------------------------------------------
 def upload_project_files(port):
     step(5, f"Uploading terminal software files to {port}...")
-    files = ["config.py", "st7789.py", "mfrc522.py", "buzzer.py", "portal.py", "main.py"]
+    files = ["config.py", "ssd1306.py", "st7789.py", "mfrc522.py", "buzzer.py", "portal.py", "main.py"]
 
     for fname in files:
         fpath = os.path.join(SRC_DIR, fname)

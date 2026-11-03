@@ -21,3 +21,4 @@ body:
       description: What problem does this solve and what is your proposed solution?
     validations:
       required: false
+
