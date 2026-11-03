@@ -1,0 +1,43 @@
+# Documentation drafts / Concept notes
+Smart_RFID_Student_Attendance_System_Concept.md
+
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+firmware/.pio/
+firmware/.cache/
+firmware/compile_commands.json
+firmware/.gitignore
+firmware/include/config.h
+firmware_micropython/bin/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.pytest_cache/
+*.xlsx
+*.csv
+# Secrets & Local Config
+*.env
+python_tools/.env
+last_cards.txt
+offline_queue.json
+update_device_id.py
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+

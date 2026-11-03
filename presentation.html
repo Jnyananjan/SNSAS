@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart RFID Student Attendance System &bull; Project Presentation</title>
+  <style>
+    :root {
+      --bg: #0F172A;
+      --card-bg: #1E293B;
+      --accent: #2563EB;
+      --accent-light: #60A5FA;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --border: #334155;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    header.slide-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      background: rgba(15, 23, 42, 0.9);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--accent-light);
+    }
+    .badge {
+      background: rgba(37, 99, 235, 0.2);
+      border: 1px solid var(--accent);
+      color: var(--accent-light);
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .badge-green {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: var(--success);
+      color: var(--success);
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    button.nav-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    button.nav-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+    main.viewport {
+      flex: 1;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1060px;
+      min-height: 520px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 44px 50px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+    .slide.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-subtitle {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-light);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .slide-title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .card h4 {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card p, .card li {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .card ul {
+      list-style-position: inside;
+      margin-top: 8px;
+    }
+    .stat-number {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--accent-light);
+      margin-bottom: 4px;
+    }
+    .stat-number.green { color: var(--success); }
+    .stat-number.red { color: var(--danger); }
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    table.comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 16px;
+      font-size: 13px;
+    }
+    table.comp-table th, table.comp-table td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    table.comp-table th {
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    table.comp-table tr.highlight {
+      background: rgba(37, 99, 235, 0.12);
+      font-weight: 600;
+    }
+    .notes-panel {
+      display: none;
+      position: fixed;
+      bottom: 48px;
+      left: 24px;
+      right: 24px;
+      max-width: 800px;
+      margin: 0 auto;
+      background: #0B1120;
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #CBD5E1;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      z-index: 100;
+    }
+    .notes-panel.active { display: block; }
+    .progress-bar-container {
+      width: 100%;
+      height: 4px;
+      background: var(--border);
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+      width: 10%;
+      transition: width 0.25s ease;
+    }
+    .kbd-hint {
+      display: inline-block;
+      background: #334155;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 11px;
+      color: #E2E8F0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Slide Navigation -->
+  <header class="slide-nav">
+    <div class="brand">
+      <span>&#127891; Smart Attendance System</span>
+      <span class="badge">ESP32-S3 MicroPython</span>
+      <span class="badge badge-green">Sub-$10 Hardware</span>
+    </div>
+    <div class="controls">
+      <span>Slide <strong id="cur-slide">1</strong> of <strong id="total-slides">10</strong></span>
+      <button class="nav-btn" onclick="prevSlide()">&#8592; Prev</button>
+      <button class="nav-btn" onclick="nextSlide()">Next &#8594;</button>
+      <button class="nav-btn" onclick="toggleNotes()" title="Toggle Speaker Notes">Notes (<span class="kbd-hint">N</span>)</button>
+      <button class="nav-btn" onclick="toggleFullScreen()" title="Toggle Fullscreen">&#x26F6; (<span class="kbd-hint">F</span>)</button>
+    </div>
+  </header>
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="progress-bar"></div>
+  </div>
+
+  <!-- Slides Viewport -->
+  <main class="viewport">
+
+    <!-- SLIDE 1: Title Slide -->
+    <div class="slide active" data-notes="Welcome judges and faculty. Present your name and mention this is a 100% Python-first, open-source attendance terminal that automates roll calls under $10.">
+      <div class="slide-subtitle">Capstone / Technical Presentation</div>
+      <h1 class="slide-title">Smart RFID &amp; NFC Student Attendance System</h1>
+      <p style="font-size: 18px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.5;">
+        An open-source, sub-$10 edge attendance terminal powered by ESP32-S3 MicroPython, cloud PostgreSQL, and safe real-time Google Sheets synchronization.
+      </p>
+      <div class="grid-3">
+        <div class="card">
+          <div class="stat-number green">&#9889; &lt; 2s</div>
+          <div class="stat-label">End-to-End Latency</div>
+          <p style="margin-top: 8px;">From card tap on terminal to verified row in Google Sheets.</p>
+        </div>
+        <div class="card">
+          <div class="stat-number">$9.50</div>
+          <div class="stat-label">Hardware Bill of Materials</div>
+          <p style="margin-top: 8px;">Replaces expensive commercial biometric clocks ($150 - $300).</p>
+        </div>
+        <div class="card">
+          <div class="stat-number green">100%</div>
+          <div class="stat-label">Python Ecosystem</div>
+          <p style="margin-top: 8px;">MicroPython on ESP32 + Python sync workers + zero C++ toolchains.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: The Problem -->
+    <div class="slide" data-notes="Speaker 1: Focus on the pain points. 15 minutes of class time lost every day to manual callouts, proxy attendance with roll-calls, and how biometric machines fail with wet fingers or cost too much.">
+      <div class="slide-subtitle">Speaker 1 &bull; Problem Statement</div>
+      <h2 class="slide-title">The Cost &amp; Inefficiency of Traditional Attendance</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="stat-number red">15 Min</div>
+          <div class="stat-label">Wasted Per Lecture</div>
+          <p style="margin-top: 8px;">Manual paper roll calls consume up to 15% of instructional time and are prone to human transcription errors.</p>
+        </div>
+        <div class="card">
+          <div class="stat-number red">High Proxy</div>
+          <div class="stat-label">Attendance Fraud</div>
+          <p style="margin-top: 8px;">Students easily respond for absent peers or share paper sign-in sheets when professors look away.</p>
+        </div>
+        <div class="card">
+          <div class="stat-number red">$200+</div>
+          <div class="stat-label">Commercial Biometric Lock-in</div>
+          <p style="margin-top: 8px;">Biometric devices suffer from hygiene issues, high failure rates, and proprietary vendor software fees.</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top: 24px; border-left: 4px solid var(--warning);">
+        <strong>The Core Need:</strong> Institutions need an ultra-low-cost, hygienic, tamper-proof system with instant visual proof that integrates with the spreadsheets faculty already use.
+      </div>
+    </div>
+
+    <!-- SLIDE 3: The Solution -->
+    <div class="slide" data-notes="Speaker 1/2: Introduce our sub-$10 terminal. Point out the ST7789 color display showing the green checkmark badge, student name, and enroll ID, plus the active piezo buzzer.">
+      <div class="slide-subtitle">System Overview</div>
+      <h2 class="slide-title">Our Solution: The Smart Attendance Terminal</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h4>&#128187; Sub-$10 Edge Terminal</h4>
+          <p>Powered by the ESP32-S3 running pure MicroPython with an SPI Color TFT Display (240x320) and high-frequency RC522 RFID reader.</p>
+          <ul style="margin-top: 12px;">
+            <li>Zero C++ or complex IDE toolchain needed</li>
+            <li>1-Click zero-tool Python flasher (<code>flash_terminal.py</code>)</li>
+            <li>Captive onboarding hotspot with Wi-Fi dropdown</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>&#128737;&#65039; Cloud &amp; Spreadsheet Automation</h4>
+          <p>Direct HTTPS Supabase integration with real-time bidirectional Google Sheets synchronization.</p>
+          <ul style="margin-top: 12px;">
+            <li>Atomic single-check-in daily constraint (PostgreSQL)</li>
+            <li>Read-only safety shield for teachers' spreadsheets</li>
+            <li>Instant 1-second catastrophe disaster recovery (<code>--resync</code>)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Architecture -->
+    <div class="slide" data-notes="Speaker 2/3: Walk through the architectural pipeline. Notice how the terminal only has an anon key with execute-only permissions on a single RPC function. The server generates authoritative timestamps.">
+      <div class="slide-subtitle">Speaker 2 &bull; Engineering Architecture</div>
+      <h2 class="slide-title">End-to-End System Architecture</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h4>1. Edge Layer (ESP32-S3)</h4>
+          <p>MicroPython firmware reads card UID via SPI, renders card UI on ST7789, emits audio feedback, and calls Supabase REST RPC over Wi-Fi.</p>
+          <div style="margin-top: 10px; font-size: 12px; color: var(--accent-light);">
+            <code>mfrc522.py</code> &bull; <code>st7789.py</code> &bull; <code>portal.py</code>
+          </div>
+        </div>
+        <div class="card">
+          <h4>2. Cloud Database (Supabase)</h4>
+          <p>Atomic PostgreSQL stored procedure (<code>record_daily_attendance</code>) validates <code>enroll_id</code>, checks today's records, and rejects duplicates.</p>
+          <div style="margin-top: 10px; font-size: 12px; color: var(--accent-light);">
+            <code>PostgreSQL 15</code> &bull; <code>RLS Enforced</code> &bull; <code>RPC Definer</code>
+          </div>
+        </div>
+        <div class="card">
+          <h4>3. Consumer Layer (Google Sheets)</h4>
+          <p>Background sync worker catches database updates and pushes them to teachers' spreadsheets via Google Apps Script webhooks.</p>
+          <div style="margin-top: 10px; font-size: 12px; color: var(--accent-light);">
+            <code>gsheet_sync_worker.py</code> &bull; <code>Excel Exporter</code>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top: 20px; font-size: 13px; text-align: center; color: var(--text-muted);">
+        <strong>Data Flow:</strong> Card Tap &#8594; MicroPython RPC &#8594; Atomic PostgreSQL Upsert &#8594; Audio-Visual Feedback &#8594; Google Sheets Webhook
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Hardware & BOM -->
+    <div class="slide" data-notes="Speaker 2: Emphasize the bill of materials. Commercial units cost over $150. Our total production BOM is under $10, making it affordable to put one terminal in every single classroom.">
+      <div class="slide-subtitle">Speaker 2 &bull; Bill of Materials</div>
+      <h2 class="slide-title">Production Bill of Materials (Under $10)</h2>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>Specification</th>
+            <th>Role</th>
+            <th>Unit Cost (USD)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>ESP32-S3 Microcontroller</strong></td>
+            <td>Dual-core 240MHz, 8MB Flash, 2.4GHz Wi-Fi</td>
+            <td>Firmware, Networking, Display Controller</td>
+            <td>$4.80</td>
+          </tr>
+          <tr>
+            <td><strong>ST7789 Color TFT LCD</strong></td>
+            <td>240x320 SPI, 65K True Color Display</td>
+            <td>User Feedback &amp; Verification Badges</td>
+            <td>$2.80</td>
+          </tr>
+          <tr>
+            <td><strong>RC522 RFID/NFC Module</strong></td>
+            <td>13.56 MHz SPI Reader + Antenna</td>
+            <td>Contactless Card &amp; Tag Detection</td>
+            <td>$1.40</td>
+          </tr>
+          <tr>
+            <td><strong>Piezo Buzzer &amp; Passive Parts</strong></td>
+            <td>Active 5V/3.3V Buzzer on GPIO 4, Resistors</td>
+            <td>Audio Tone Status Feedback</td>
+            <td>$0.40</td>
+          </tr>
+          <tr class="highlight">
+            <td colspan="3"><strong>Total Hardware BOM per Terminal</strong></td>
+            <td><strong>$9.40 USD</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SLIDE 6: Zero-Tool Deployment -->
+    <div class="slide" data-notes="Speaker 2/3: Explain the mass deployment workflow. Teachers or admins do not need Arduino IDE or terminal commands. They plug the USB cable, run flash_terminal.py, and connect via their phone hotspot.">
+      <div class="slide-subtitle">Deployment &amp; Usability</div>
+      <h2 class="slide-title">1-Click Zero-Tool Setup &amp; Captive Portal</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h4>&#9889; Zero-Tool Flasher (<code>flash_terminal.py</code>)</h4>
+          <ul>
+            <li>Auto-detects USB COM ports across Windows/macOS/Linux.</li>
+            <li>Installs required flashing libraries dynamically.</li>
+            <li>Pulls the official ESP32-S3 MicroPython firmware.</li>
+            <li>Flashes chip and synchronizes code in under 60 seconds.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>&#128246; Captive Onboarding Web Portal</h4>
+          <ul>
+            <li>If Wi-Fi fails or is unconfigured, device broadcasts AP: <code>Smart-Attendance-Setup</code>.</li>
+            <li>Non-blocking UDP DNS server triggers captive sign-in popup on Android, iOS, and Windows.</li>
+            <li>Built-in 30+ network scanner with auto-filling SSID dropdown (WLED style).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Security & Reliability -->
+    <div class="slide" data-notes="Speaker 3: Security is a top priority. Notice that timestamps are generated on the server (now()), so students cannot tamper with the ESP32 clock. Unique database constraints prevent multiple check-ins.">
+      <div class="slide-subtitle">Speaker 3 &bull; Security Architecture</div>
+      <h2 class="slide-title">Enterprise Security &amp; Data Integrity</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h4>&#128274; Credential Isolation</h4>
+          <p>Terminals hold only a public <code>anon</code> key restricted exclusively to the <code>record_daily_attendance</code> RPC function. Direct table access is blocked by Row Level Security (RLS).</p>
+        </div>
+        <div class="card">
+          <h4>&#128336; Server-Authoritative Clock</h4>
+          <p>Attendance timestamps are generated by PostgreSQL (<code>timezone('utc', now())</code>). Students cannot tamper with attendance times by spoofing device RTC clocks.</p>
+        </div>
+        <div class="card">
+          <h4>&#128203; Atomic Daily Constraint</h4>
+          <p>PostgreSQL schema enforces <code>UNIQUE (student_id, date)</code>. Duplicate network packets or multiple card swipes return <code>ALREADY_MARKED</code> with zero race conditions.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: Anti-Proxy Measures -->
+    <div class="slide" data-notes="Speaker 4: How we solve proxy attendance. 1) 2-second rate limiting cooldown, 2) Large visual callout of student name on screen, 3) Distinct audio buzzer chirps that alert the teacher.">
+      <div class="slide-subtitle">Speaker 4 &bull; Proxy Prevention</div>
+      <h2 class="slide-title">Defeating Proxy Attendance</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="stat-number">2.0s</div>
+          <div class="stat-label">Hardware Cooldown</div>
+          <p style="margin-top: 8px;">Firmware blocks rapid consecutive card taps. Swiping multiple cards in a row triggers an alert lockout.</p>
+        </div>
+        <div class="card">
+          <h4>&#128065; High-Visibility Display</h4>
+          <p style="margin-top: 8px;">The ST7789 TFT prominently renders the student's <strong>Full Name</strong>, <strong>Enroll ID</strong>, and <strong>Class</strong> for 2 full seconds so teachers immediately spot proxy swipes.</p>
+        </div>
+        <div class="card">
+          <h4>&#128266; Auditory Verification</h4>
+          <p style="margin-top: 8px;">Piezo buzzer emits 2 chirps for "Present!", 1 long tone for "Already Marked", and 3 rapid clicks for "No Data Found", giving teachers instant room-wide audio cues.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: Comparison -->
+    <div class="slide" data-notes="Speaker 4: Contrast our terminal against existing alternatives. Highlight the price advantage ($9.50 vs $200), real-time Google Sheets sync, and open-source flexibility.">
+      <div class="slide-subtitle">Competitive Analysis</div>
+      <h2 class="slide-title">System Comparison Matrix</h2>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Manual Paper Roll Call</th>
+            <th>Commercial Biometric ($200+)</th>
+            <th>Our Smart Attendance System</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Speed per Student</strong></td>
+            <td>5 - 10 seconds</td>
+            <td>3 - 6 seconds (finger print fail)</td>
+            <td style="color: var(--success); font-weight: 700;">&lt; 0.5 seconds (NFC Tap)</td>
+          </tr>
+          <tr>
+            <td><strong>Hardware Cost</strong></td>
+            <td>$0 (Paper)</td>
+            <td>$150 - $300</td>
+            <td style="color: var(--success); font-weight: 700;">$9.40 per terminal</td>
+          </tr>
+          <tr>
+            <td><strong>Hygiene / Contact</strong></td>
+            <td>Shared pen/paper</td>
+            <td>Unsanitary glass scanner</td>
+            <td style="color: var(--success); font-weight: 700;">100% Contactless RFID</td>
+          </tr>
+          <tr>
+            <td><strong>Software Fees</strong></td>
+            <td>None</td>
+            <td>Proprietary Annual License</td>
+            <td style="color: var(--success); font-weight: 700;">Open Source &bull; Zero Fees</td>
+          </tr>
+          <tr class="highlight">
+            <td><strong>Teacher Interface</strong></td>
+            <td>Manual data entry</td>
+            <td>Exporting CSVs from portal</td>
+            <td style="color: var(--success); font-weight: 700;">Live Google Sheets Sync</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SLIDE 10: Live Demo & Conclusion -->
+    <div class="slide" data-notes="Execute the live scan demo on stage! Show the terminal display switching from 'TAP YOUR ID CARD' to 'Present!' with the green checkmark badge, and verify the record appearing in Google Sheets.">
+      <div class="slide-subtitle">Live Demonstration &bull; Conclusion</div>
+      <h2 class="slide-title">Live System Demonstration &amp; Q&amp;A</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h4>&#128640; Live Demonstration Steps</h4>
+          <ol style="margin-left: 18px; margin-top: 10px; line-height: 1.8; color: var(--text-muted);">
+            <li>Show Idle Screen: <code>TAP YOUR ID CARD</code> &amp; Connected status.</li>
+            <li>Tap Student Card: Terminal chirps and displays <strong>Present!</strong> checkmark badge.</li>
+            <li>Show Anti-Proxy: Tap same card again &#8594; <strong>Already Marked</strong> warning.</li>
+            <li>Inspect Google Sheet: Row automatically populated with student name &amp; UTC timestamp.</li>
+          </ol>
+        </div>
+        <div class="card" style="display: flex; flex-direction: column; justify-content: center; text-align: center;">
+          <h3 style="font-size: 24px; color: var(--success); margin-bottom: 12px;">Thank You!</h3>
+          <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 20px;">
+            Open-Source &bull; Built with ESP32-S3, MicroPython, and Supabase.
+          </p>
+          <div style="font-size: 13px; color: var(--accent-light);">
+            Questions &amp; Demonstration
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Presenter Notes Bottom Overlay -->
+  <aside class="notes-panel" id="notes-panel">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+      <strong style="color: var(--accent-light); font-size: 12px; text-transform: uppercase;">&#128227; Speaker Notes</strong>
+      <span style="font-size: 11px; color: var(--text-muted);">Press <span class="kbd-hint">N</span> to dismiss</span>
+    </div>
+    <div id="notes-content">Notes will appear here.</div>
+  </aside>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const curSlideEl = document.getElementById('cur-slide');
+    const totalSlidesEl = document.getElementById('total-slides');
+    const progressBar = document.getElementById('progress-bar');
+    const notesPanel = document.getElementById('notes-panel');
+    const notesContent = document.getElementById('notes-content');
+
+    let currentIndex = 0;
+    totalSlidesEl.innerText = slides.length;
+
+    function updateSlide(newIndex) {
+      if (newIndex < 0 || newIndex >= slides.length) return;
+      slides[currentIndex].classList.remove('active');
+      currentIndex = newIndex;
+      slides[currentIndex].classList.add('active');
+
+      curSlideEl.innerText = currentIndex + 1;
+      const progress = ((currentIndex + 1) / slides.length) * 100;
+      progressBar.style.width = progress + '%';
+
+      // Update speaker notes
+      const notes = slides[currentIndex].getAttribute('data-notes') || 'No notes for this slide.';
+      notesContent.innerText = notes;
+    }
+
+    function nextSlide() { updateSlide(currentIndex + 1); }
+    function prevSlide() { updateSlide(currentIndex - 1); }
+
+    function toggleNotes() {
+      notesPanel.classList.toggle('active');
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key.toLowerCase() === 'n') {
+        toggleNotes();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullScreen();
+      }
+    });
+
+    // Initialize first slide notes
+    updateSlide(0);
+  </script>
+</body>
+</html>
