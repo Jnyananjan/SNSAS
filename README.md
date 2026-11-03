@@ -155,6 +155,15 @@ Detailed wiring diagrams and pinouts are in [docs/wiring_diagram.md](docs/wiring
 
 ---
 
+## 👥 Team & Contributors
+
+Made with ❤️ by:
+
+| [<img src="https://github.com/Jnyananjan.png" width="90px;" style="border-radius:50%;"/><br /><sub><b>Jnyananjan Sarkar</b></sub>](https://github.com/Jnyananjan) | [<img src="https://github.com/bhowmiksujoy812-ai.png" width="90px;" style="border-radius:50%;"/><br /><sub><b>Sujoy Bhowmik</b></sub>](https://github.com/bhowmiksujoy812-ai) | [<img src="https://github.com/imankdey-cpu.png" width="90px;" style="border-radius:50%;"/><br /><sub><b>Iman Kalyan Dey</b></sub>](https://github.com/imankdey-cpu) | [<img src="https://github.com/aindreela05-sys.png" width="90px;" style="border-radius:50%;"/><br /><sub><b>Aindreela</b></sub>](https://github.com/aindreela05-sys) |
+| :---: | :---: | :---: | :---: |
+
+---
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
